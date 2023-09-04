@@ -66,6 +66,39 @@ limitations under the License.
     .mx_BetaCard_betaPill {
         margin-right: $spacing-8;
     }
+
+    .i64_LeftPanel_hidePanel {
+        cursor: pointer;
+        display: flex;
+        padding: 10px 8px;
+        margin: 0 8px 0 0;
+        min-width: 32px;
+        height: 32px;
+        position: relative;
+        border-radius: 8px;
+        justify-content: space-between;
+        flex-direction: column;
+        background-color: var(--cpd-color-alpha-gray-300);
+        box-sizing: border-box;
+
+        &:hover {
+            background-color: var(--cpd-color-gray-800);
+
+            div {
+                border-color: var(--cpd-color-bg-canvas-default);
+            }
+        }
+
+        div {
+            border-bottom: 1px solid var(--cpd-color-text-secondary);
+        }
+    }
+
+    @media (max-width: 540px) {
+        .i64_LeftPanel_hidePanel {
+            margin: 0 8px;
+        }
+    }
 }
 
 .mx_LegacyRoomHeader_name {

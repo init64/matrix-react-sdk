@@ -70,6 +70,7 @@ import { Alignment } from "../elements/Tooltip";
 import RoomCallBanner from "../beacon/RoomCallBanner";
 import { shouldShowComponent } from "../../../customisations/helpers/UIComponents";
 import { UIComponent } from "../../../settings/UIFeature";
+import UIStore from "../../../stores/UIStore";
 
 class DisabledWithReason {
     public constructor(public readonly reason: string) {}
@@ -736,6 +737,16 @@ export default class RoomHeader extends React.Component<IProps, IState> {
     public render(): React.ReactNode {
         const isVideoRoom = SettingsStore.getValue("feature_video_rooms") && calcIsVideoRoom(this.props.room);
 
+        const hideButtonLeftPanel = UIStore.instance.windowWidth > 740 ? undefined : (
+            <div className="i64_LeftPanel_hidePanel"
+                onClick={() => window.i64LoggedInView.togglePanel()}
+            >
+                <div>{}</div>
+                <div>{}</div>
+                <div>{}</div>
+            </div>
+        );
+
         let roomAvatar: JSX.Element | null = null;
         if (this.props.room) {
             roomAvatar = (
@@ -778,6 +789,8 @@ export default class RoomHeader extends React.Component<IProps, IState> {
                         className="mx_LegacyRoomHeader_wrapper"
                         aria-owns={this.state.rightPanelOpen ? "mx_RightPanel" : undefined}
                     >
+                        {hideButtonLeftPanel}
+
                         <div className="mx_LegacyRoomHeader_avatar">{roomAvatar}</div>
                         {icon}
                         {name}
@@ -822,6 +835,8 @@ export default class RoomHeader extends React.Component<IProps, IState> {
                     className="mx_LegacyRoomHeader_wrapper"
                     aria-owns={this.state.rightPanelOpen ? "mx_RightPanel" : undefined}
                 >
+                    {hideButtonLeftPanel}
+
                     <div className="mx_LegacyRoomHeader_avatar">{roomAvatar}</div>
                     {icon}
                     {name}

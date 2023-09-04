@@ -75,6 +75,8 @@ import { UserOnboardingPage } from "../views/user-onboarding/UserOnboardingPage"
 import { PipContainer } from "./PipContainer";
 import { monitorSyncedPushRules } from "../../utils/pushRules/monitorSyncedPushRules";
 import { ConfigOptions } from "../../SdkConfig";
+import UIStore from "../../stores/UIStore";
+// import UIStore from "../../stores/UIStore";
 
 // We need to fetch each pinned message individually (if we don't already have it)
 // so each pinned message may trigger a request. Limit the number per room for sanity.
@@ -87,6 +89,7 @@ const MAX_PINNED_NOTICES_PER_ROOM = 2;
 function getInputableElement(el: HTMLElement): HTMLElement | null {
     return el.closest("input, textarea, select, [contenteditable=true]");
 }
+
 
 interface IProps {
     matrixClient: MatrixClient;
@@ -117,6 +120,8 @@ interface IState {
     useCompactLayout: boolean;
     activeCalls: Array<MatrixCall>;
     backgroundImage?: string;
+
+    isHidePanel: boolean;
 }
 
 /**
@@ -149,6 +154,8 @@ class LoggedInView extends React.Component<IProps, IState> {
             useCompactLayout: SettingsStore.getValue("useCompactLayout"),
             usageLimitDismissed: false,
             activeCalls: LegacyCallHandler.instance.getAllActiveCalls(),
+
+            isHidePanel: false
         };
 
         // stash the MatrixClient in case we log out before we are unmounted
@@ -161,6 +168,8 @@ class LoggedInView extends React.Component<IProps, IState> {
         this._roomView = React.createRef();
         this._resizeContainer = React.createRef();
         this.resizeHandler = React.createRef();
+
+        window.i64LoggedInView = this;
     }
 
     public componentDidMount(): void {
@@ -626,6 +635,12 @@ class LoggedInView extends React.Component<IProps, IState> {
         this._roomView.current?.handleScrollKey(ev);
     };
 
+
+    public togglePanel = (): void => {
+        this.setState({ isHidePanel: !this.state.isHidePanel });
+    }
+
+
     public render(): React.ReactNode {
         let pageElement;
 
@@ -666,6 +681,11 @@ class LoggedInView extends React.Component<IProps, IState> {
             "mx_MatrixChat": true,
             "mx_MatrixChat--with-avatar": this.state.backgroundImage,
         });
+        const leftPanelClasses = classNames({
+            "mx_LeftPanel_outerWrapper": true,
+            fixed: UIStore.instance.windowWidth > 740,
+            hide: this.state.isHidePanel
+        });
 
         const audioFeedArraysForCalls = this.state.activeCalls.map((call) => {
             return <AudioFeedArrayForLegacyCall call={call} key={call.callId} />;
@@ -681,7 +701,7 @@ class LoggedInView extends React.Component<IProps, IState> {
                 >
                     <ToastContainer />
                     <div className={bodyClasses}>
-                        <div className="mx_LeftPanel_outerWrapper">
+                        <div className={leftPanelClasses}>
                             <LeftPanelLiveShareWarning isMinimized={this.props.collapseLhs || false} />
                             <nav className="mx_LeftPanel_wrapper">
                                 <BackdropPanel blurMultiplier={0.5} backgroundImage={this.state.backgroundImage} />

@@ -51,6 +51,7 @@ import AutoRageshakeStore from "../stores/AutoRageshakeStore";
 import { IConfigOptions } from "../IConfigOptions";
 import { MatrixDispatcher } from "../dispatcher/dispatcher";
 import { DeepReadonly } from "./common";
+import LoggedInView from "../components/structures/LoggedInView";
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
@@ -109,6 +110,8 @@ declare global {
         mxLoginWithAccessToken: (hsUrl: string, accessToken: string) => Promise<void>;
         mxAutoRageshakeStore?: AutoRageshakeStore;
         mxDispatcher: MatrixDispatcher;
+
+        i64LoggedInView: LoggedInView;
     }
 
     interface Electron {

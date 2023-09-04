@@ -350,6 +350,18 @@ export default class LeftPanel extends React.Component<IProps, IState> {
             );
         }
 
+        // UIStore.instance.windowWidth > 740 ? undefined :
+        const hideButton = (
+            <div
+                className="i64_LeftPanel_hidePanel"
+                onClick={() => window.i64LoggedInView.togglePanel()}
+            >
+                <div>{}</div>
+                <div>{}</div>
+                <div>{}</div>
+            </div>
+        );
+
         return (
             <div
                 className="mx_LeftPanel_filterContainer"
@@ -361,6 +373,8 @@ export default class LeftPanel extends React.Component<IProps, IState> {
 
                 {dialPadButton}
                 {rightButton}
+
+                {hideButton}
             </div>
         );
     }

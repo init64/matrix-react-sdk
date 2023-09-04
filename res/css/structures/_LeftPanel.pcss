@@ -29,6 +29,64 @@ limitations under the License.
 
     /* Contain the amount of layers rendered by constraining what actually needs re-layering via css */
     contain: layout paint;
+
+    /* ! Change */
+    &:not(.fixed) {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: left .5s;
+        z-index: 1;
+
+        &.hide {
+            left: -100%;
+        }
+
+        .mx_LeftPanel {
+            .mx_LeftPanel_filterContainer {
+                .i64_LeftPanel_hidePanel {
+                    cursor: pointer;
+                    display: flex;
+                    padding: 10px 8px;
+                    width: 32px;
+                    height: 32px;
+                    position: relative;
+                    border-radius: 8px;
+                    justify-content: space-between;
+                    flex-direction: column;
+                    background-color: var(--cpd-color-alpha-gray-300);
+                    box-sizing: border-box;
+                    gap: 8px;
+
+                    &:hover {
+                        background-color: var(--cpd-color-gray-800);
+
+                        div {
+                            border-color: var(--cpd-color-bg-canvas-default);
+                        }
+                    }
+
+                    div {
+                        border-bottom: 1px solid var(--cpd-color-text-secondary);
+                    }
+                }
+
+                @media (max-width: 440px) {
+                    display: grid;
+
+                    .i64_LeftPanel_hidePanel {
+                        width: 100%;
+
+                        div {
+                            width: 16px;
+                            margin: 0 auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .mx_LeftPanel_wrapper,
