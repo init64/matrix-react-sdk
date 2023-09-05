@@ -32,6 +32,7 @@ limitations under the License.
 
     /* ! Change */
     &:not(.fixed) {
+        max-width: 80%;
         min-width: 80%;
         height: 100%;
         position: absolute;
@@ -42,6 +43,10 @@ limitations under the License.
 
         &.hide {
             left: -100%;
+        }
+
+        .mx_LeftPanel_wrapper--user {
+            width: 100% !important;
         }
 
         .mx_LeftPanel {

@@ -75,6 +75,7 @@ import MainSplit from "./MainSplit";
 import RightPanel from "./RightPanel";
 import SpaceHierarchy, { showRoom } from "./SpaceHierarchy";
 import { RoomPermalinkCreator } from "../../utils/permalinks/Permalinks";
+import UIStore from "../../stores/UIStore";
 
 interface IProps {
     space: Room;
@@ -804,8 +805,19 @@ export default class SpaceRoomView extends React.PureComponent<IProps, IState> {
                 />
             ) : undefined;
 
+        const showButtonLeftPanel = UIStore.instance.windowWidth > 740 ? undefined : (
+            <div className="i64_LeftPanel_hidePanel"
+                onClick={() => window.i64LoggedInView.togglePanel()}
+            >
+                <div>{}</div>
+                <div>{}</div>
+                <div>{}</div>
+            </div>
+        );
+
         return (
             <main className="mx_SpaceRoomView">
+                {showButtonLeftPanel}
                 <ErrorBoundary>
                     <MainSplit panel={rightPanel} resizeNotifier={this.props.resizeNotifier}>
                         {this.renderBody()}
